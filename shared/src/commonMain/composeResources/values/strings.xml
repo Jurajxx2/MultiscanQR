@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Multiscan QR</string>
+
+    <string name="cd_scan_history">Scan history</string>
+    <string name="scanner_viewfinder_hint">Point the camera at a QR code</string>
+    <string name="permission_camera_rationale">Multiscan QR needs camera access to scan QR codes.</string>
+    <string name="permission_grant_camera">Grant camera access</string>
+    <string name="permission_camera_denied">Camera access was denied. You can enable it in system settings.</string>
+    <string name="permission_open_settings">Open settings</string>
+    <string name="action_open_link">Open link</string>
+    <string name="action_copy">Copy</string>
+    <string name="action_done">Done</string>
+
+    <string name="scan_type_url">Link</string>
+    <string name="scan_type_email">E-mail</string>
+    <string name="scan_type_phone">Phone</string>
+    <string name="scan_type_wifi">Wi-Fi</string>
+    <string name="scan_type_geo">Location</string>
+    <string name="scan_type_contact">Contact</string>
+    <string name="scan_type_text">Text</string>
+
+    <string name="history_title">History</string>
+    <string name="cd_navigate_back">Back</string>
+    <string name="cd_clear_history">Clear history</string>
+    <string name="cd_delete_entry">Delete entry</string>
+    <string name="history_empty">No scans yet</string>
+    <string name="history_item_meta">%1$s · %2$s · tap to copy</string>
+</resources>

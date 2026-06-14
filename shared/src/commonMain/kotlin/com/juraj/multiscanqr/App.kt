@@ -1,48 +1,65 @@
 package com.juraj.multiscanqr
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.safeContentPadding
-import androidx.compose.material3.Button
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import org.jetbrains.compose.resources.painterResource
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
+import androidx.compose.runtime.Composable
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.juraj.multiscanqr.history.HistoryScreen
+import com.juraj.multiscanqr.history.HistoryViewModel
+import com.juraj.multiscanqr.scanner.ScannerScreen
+import com.juraj.multiscanqr.scanner.ScannerViewModel
+import org.koin.compose.viewmodel.koinViewModel
 
-import multiscanqr.shared.generated.resources.Res
-import multiscanqr.shared.generated.resources.compose_multiplatform
+private object Routes {
+    const val Scanner = "scanner"
+    const val History = "history"
+}
 
 @Composable
-@Preview
 fun App() {
-    MaterialTheme {
-        var showContent by remember { mutableStateOf(false) }
-        Column(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.primaryContainer)
-                .safeContentPadding()
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
+    MaterialTheme(
+        colorScheme = if (isSystemInDarkTheme()) darkColorScheme() else lightColorScheme(),
+    ) {
+        val navController = rememberNavController()
+        NavHost(
+            navController = navController,
+            startDestination = Routes.Scanner,
+            enterTransition = {
+                slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Right)
+            },
+            exitTransition = {
+                slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Right)
+            },
+            popEnterTransition = {
+                slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Right)
+            },
+            popExitTransition = {
+                slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Right)
+            },
         ) {
-            Button(onClick = { showContent = !showContent }) {
-                Text("Click me!")
+            composable(Routes.Scanner) {
+                val scannerViewModel: ScannerViewModel = koinViewModel()
+                ScannerScreen(
+                    viewModel = scannerViewModel,
+                    onOpenHistory = {
+                        navController.navigate(Routes.History) {
+                            launchSingleTop = true
+                        }
+                    },
+                )
             }
-            AnimatedVisibility(showContent) {
-                val greeting = remember { Greeting().greet() }
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    Image(painterResource(Res.drawable.compose_multiplatform), null)
-                    Text("Compose: $greeting")
-                }
+
+            composable(Routes.History) {
+                val historyViewModel: HistoryViewModel = koinViewModel()
+                HistoryScreen(
+                    viewModel = historyViewModel,
+                    onNavigateBack = { navController.popBackStack() },
+                )
             }
         }
     }

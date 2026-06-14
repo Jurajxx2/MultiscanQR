@@ -1,0 +1,19 @@
+CREATE TABLE scan_entry (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    content TEXT NOT NULL,
+    content_type TEXT NOT NULL,
+    scanned_at_epoch_millis INTEGER NOT NULL
+);
+
+selectAll:
+SELECT * FROM scan_entry ORDER BY scanned_at_epoch_millis DESC;
+
+insert:
+INSERT INTO scan_entry(content, content_type, scanned_at_epoch_millis)
+VALUES (?, ?, ?);
+
+deleteById:
+DELETE FROM scan_entry WHERE id = ?;
+
+clearAll:
+DELETE FROM scan_entry;
