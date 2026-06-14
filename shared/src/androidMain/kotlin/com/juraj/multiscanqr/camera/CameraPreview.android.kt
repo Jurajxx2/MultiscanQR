@@ -92,7 +92,7 @@ actual fun CameraPreview(
     AndroidView(factory = { previewView }, modifier = modifier)
 }
 
-@OptIn(ExperimentalGetImage::class)
+@androidx.annotation.OptIn(ExperimentalGetImage::class)
 private fun decodeFrame(
     scanner: com.google.mlkit.vision.barcode.BarcodeScanner,
     imageProxy: ImageProxy,
